@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	a.active {
+		@apply text-emerald-600;
+	}
+}
+
+@layer components {
+	.table-container {
+		overflow-x: auto;
+		max-width: 100%;
+		border: 1px solid #ccc;
+	}
+
+	.table-content {
+		display: table;
+		width: 100%;
+	}
+
+	.table-header {
+		display: table-row;
+	}
+
+	.bold-header {
+		font-weight: bold;
+	}
+
+	.cell {
+		display: table-cell;
+		text-align: center;
+		padding: 10px;
+		border-bottom: 1px solid #ccc;
+		border-right: 1px solid #ccc;
+		white-space: nowrap;
+	}
+}

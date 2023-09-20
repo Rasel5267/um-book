@@ -1,0 +1,22 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.BookRoutes = void 0;
+const express_1 = __importDefault(require("express"));
+const auth_1 = __importDefault(require("../../middleware/auth"));
+const user_1 = require("../../../enums/user");
+const book_controller_1 = require("./book.controller");
+const validateRequest_1 = require("../../middleware/validateRequest");
+const book_validation_1 = require("./book.validation");
+const router = express_1.default.Router();
+router.post('/create', (0, validateRequest_1.validateRequest)(book_validation_1.BookValidation.create), (0, auth_1.default)(user_1.ENUM_USER_ROLE.FACULTY), book_controller_1.BookController.createBook);
+router.post('/status/:id', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN), book_controller_1.BookController.approvedBook);
+router.patch('/:id', (0, validateRequest_1.validateRequest)(book_validation_1.BookValidation.update), (0, auth_1.default)(user_1.ENUM_USER_ROLE.FACULTY), book_controller_1.BookController.updateBook);
+router.delete('/:bookId', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.FACULTY), book_controller_1.BookController.deleteBook);
+router.get('/download-pdf/:filename', (0, auth_1.default)(user_1.ENUM_USER_ROLE.STUDENT), book_controller_1.BookController.download);
+router.get('/unapproved', book_controller_1.BookController.getUnapprovedBooks);
+router.get('/:id', book_controller_1.BookController.getSingleBook);
+router.get('/', book_controller_1.BookController.getAllBooks);
+exports.BookRoutes = router;
