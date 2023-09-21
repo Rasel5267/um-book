@@ -1,5 +1,6 @@
 import BookCard from "../components/BookCard";
 import Hero from "../components/Hero";
+import BookList from "../components/bookList/BookList";
 import { useGetBooksQuery } from "../redux/features/book/bookApi";
 
 const Home = () => {
@@ -13,6 +14,9 @@ const Home = () => {
 	return (
 		<div className="pb-8">
 			<Hero />
+			<div className="min-h-[50vh] py-16 my-auto flex flex-col justify-center bg-gray-50 mb-16">
+				<BookList />
+			</div>
 			{isLoading ? (
 				<div className="flex justify-center w-full h-[50vh]">
 					<span className="loading loading-ring loading-lg"></span>
