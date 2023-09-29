@@ -39,13 +39,16 @@ const GetAllBooks = async (
   const { page, limit, skip, sortBy, sortOrder } =
     paginationHelpers.calculatePagination(paginationOptions);
 
+  const decodeSearchTerm = searchTerm ? decodeURIComponent(searchTerm) : '';
+  console.log('Decoded Search Term:', decodeSearchTerm);
+
   const andConditions = [];
-  // Search needs $or for searching in specified fields
-  if (searchTerm) {
+
+  if (decodeSearchTerm) {
     andConditions.push({
       $or: bookSearchableFields.map(field => ({
         [field]: {
-          $regex: searchTerm,
+          $regex: decodeSearchTerm,
           $options: 'i',
         },
       })),

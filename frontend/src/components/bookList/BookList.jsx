@@ -39,9 +39,7 @@ const BookList = () => {
 		? filteredDepartment.filter(
 				(book) => book.semester === selectedSemester
 		  )
-		: filteredDepartment;
-
-	console.log(filteredBooks);
+		: [];
 
 	return (
 		<div>
