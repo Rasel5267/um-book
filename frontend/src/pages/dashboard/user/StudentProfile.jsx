@@ -53,6 +53,8 @@ const StudentProfile = () => {
 
 	const { data } = useGetStudentProfileQuery(userId);
 
+	console.log(data);
+
 	useEffect(() => {
 		if (data) {
 			setFormData({

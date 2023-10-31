@@ -55,7 +55,7 @@ const Navbar = () => {
 	};
 
 	return (
-		<div className="bg-white shadow-sm py-2 z-50">
+		<div className="bg-white shadow-sm py-2 sticky top-0 z-50">
 			<nav className="flex justify-between items-center w-[92%] mx-auto">
 				<Link to="/" className="flex items-center space-x-2">
 					<svg
@@ -77,23 +77,52 @@ const Navbar = () => {
 					</span>
 				</Link>
 				<div
-					className={`flex-1 md:static md:ml-8 absolute bg-white shadow-sm md:shadow-none w-[50%] md:min-h-fit min-h-[88vh] z-48 left-0 md:w-auto flex pt-32 md:pt-0 px-8 md:px-0 ${
-						isMenuOpen ? "top-[10%]" : "top-[-400%]"
+					className={`flex-1 md:static md:ml-8 absolute bg-white shadow-sm md:shadow-none w-[80%] sm:w-[50%] md:min-h-fit min-h-screen left-0 md:w-auto flex pt-32 md:pt-0 px-8 md:px-0 top-0 ${
+						isMenuOpen ? "left-0 z-50" : "left-[-100%]"
 					}`}
 				>
 					<ul className="flex md:flex-row flex-col md:items-center md:gap-[2vw] gap-8">
 						<li onClick={() => setMenuOpen(false)}>
-							<NavLink to="/" className="hover:text-gray-500">
+							<NavLink
+								to="/"
+								className="hover:text-gray-500 font-semibold"
+							>
 								Home
 							</NavLink>
 						</li>
-						<li onClick={() => setMenuOpen(false)}>
-							<NavLink
-								to="/books"
-								className="hover:text-gray-500"
+						<li className="dropdown md:dropdown-end">
+							<button tabIndex={0} className="font-semibold">
+								All Documents
+							</button>
+							<ul
+								tabIndex={0}
+								className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 md:mt-6"
 							>
-								All Books
-							</NavLink>
+								<li onClick={() => setMenuOpen(false)}>
+									<NavLink
+										to="/books"
+										className="hover:text-gray-500 font-semibold"
+									>
+										Books
+									</NavLink>
+								</li>
+								<li onClick={() => setMenuOpen(false)}>
+									<NavLink
+										to="/documents"
+										className="hover:text-gray-500 font-semibold"
+									>
+										Documents
+									</NavLink>
+								</li>
+								<li onClick={() => setMenuOpen(false)}>
+									<NavLink
+										to="/questions"
+										className="hover:text-gray-500 font-semibold"
+									>
+										Questions
+									</NavLink>
+								</li>
+							</ul>
 						</li>
 					</ul>
 				</div>

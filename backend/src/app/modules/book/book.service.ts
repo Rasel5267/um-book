@@ -1,22 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { JwtPayload } from 'jsonwebtoken';
-import { IBook, IBookFilters } from './book.interface';
+import { IBook } from './book.interface';
 import { Book } from './book.model';
 import { ApiError } from '../../../errors/ApiError';
 import httpStatus from 'http-status';
 import { Faculty } from '../faculty/faculty.model';
-import { IPaginationOptions } from '../../../interfaces/pagination';
-import { paginationHelpers } from '../../../helpers/paginationHelper';
-import { SortOrder } from 'mongoose';
-import { IGenericResponse } from '../../../interfaces/common';
-import { bookSearchableFields } from './book.constant';
 import { UploadedFile } from 'express-fileupload';
 import { deleteFile } from '../../../shared/deleteFile';
 import path from 'path';
 
 const CreateBook = async (
   user: JwtPayload,
-  payload: IBook & { pdfFile: UploadedFile }
+  payload: IBook & { pdfFile: UploadedFile; imageFile: UploadedFile }
 ): Promise<IBook> => {
   const isFacultyExist = await Faculty.findOne({ id: user.userId });
   if (!isFacultyExist) {
@@ -30,71 +25,14 @@ const CreateBook = async (
   return result;
 };
 
-const GetAllBooks = async (
-  filters: IBookFilters,
-  paginationOptions: IPaginationOptions
-): Promise<IGenericResponse<IBook[]>> => {
-  // Extract searchTerm to implement search query
-  const { searchTerm, ...filtersData } = filters;
-  const { page, limit, skip, sortBy, sortOrder } =
-    paginationHelpers.calculatePagination(paginationOptions);
-
-  const decodeSearchTerm = searchTerm ? decodeURIComponent(searchTerm) : '';
-  console.log('Decoded Search Term:', decodeSearchTerm);
-
-  const andConditions = [];
-
-  if (decodeSearchTerm) {
-    andConditions.push({
-      $or: bookSearchableFields.map(field => ({
-        [field]: {
-          $regex: decodeSearchTerm,
-          $options: 'i',
-        },
-      })),
-    });
-  }
-
-  if (Object.keys(filtersData).length) {
-    andConditions.push({
-      $and: Object.entries(filtersData).map(([field, value]) => {
-        const query = {
-          [field]: {
-            $regex: new RegExp(`^${value}$`, 'i'), // 'i' flag for case-insensitive
-          },
-        };
-        return query;
-      }),
-    });
-  }
-
-  // Dynamic  Sort needs  field to  do sorting
-  const sortConditions: { [key: string]: SortOrder } = {};
-  if (sortBy && sortOrder) {
-    sortConditions[sortBy] = sortOrder;
-  }
-  const whereConditions =
-    andConditions.length > 0 ? { $and: andConditions } : {};
-
-  const result = await Book.find(whereConditions)
+const GetAllBooks = async (): Promise<IBook[]> => {
+  const result = await Book.find()
     .populate('academicDepartment')
-    .populate('faculty')
-    .sort(sortConditions)
-    .skip(skip)
-    .limit(limit);
+    .populate('faculty');
 
   const approvedBooks = result.filter(book => book.status === 'approved');
 
-  const total = await Book.countDocuments(whereConditions);
-
-  return {
-    meta: {
-      page,
-      limit,
-      total,
-    },
-    data: approvedBooks,
-  };
+  return approvedBooks;
 };
 
 const GetSingleBook = async (id: string): Promise<IBook | null> => {
@@ -140,10 +78,14 @@ const DeleteBook = async (id: string): Promise<void> => {
   }
 
   const pdfFile = book.pdf;
+  const imageFile = book.image;
 
-  const dir = path.join(process.cwd(), 'uploads');
+  const dir = path.join(process.cwd(), 'uploads/pdf');
+  const imgDir = path.join(process.cwd(), 'uploads/images');
 
   await deleteFile(`${dir}/${pdfFile}`);
+
+  await deleteFile(`${imgDir}/${imageFile}`);
 
   await Book.findByIdAndDelete(id);
 };

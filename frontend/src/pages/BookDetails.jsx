@@ -1,6 +1,7 @@
 import DownloadBtn from "../components/DownloadBtn";
 import { useParams } from "react-router-dom";
 import { useSingleBookQuery } from "../redux/features/book/bookApi";
+import { IMG_URL } from "../config";
 
 const BookDetails = () => {
 	const { id } = useParams();
@@ -20,7 +21,7 @@ const BookDetails = () => {
 					<div className="flex w-full flex-wrap md:flex-nowrap justify-between">
 						<div className="w-[40%] mx-auto mb-12 lg:mb-0">
 							<img
-								src={book?.image}
+								src={`${IMG_URL}/${book?.image}`}
 								alt={book?.title}
 								className="w-full h-full "
 							/>

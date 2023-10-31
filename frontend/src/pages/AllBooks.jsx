@@ -63,6 +63,15 @@ const AllBooks = () => {
 		  )
 		: filteredDepartment;
 
+	if (filteredBooks.length === 0)
+		return (
+			<div className="flex items-center justify-center h-screen">
+				<h4 className="text-3xl font-bold text-gray-900">
+					Books Not Found
+				</h4>
+			</div>
+		);
+
 	return (
 		<>
 			{isLoading ? (

@@ -29,17 +29,71 @@ const SidebarMenu = () => {
 							</ul>
 						</details>
 					</li>
+					<li className="text-[16px] font-semibold my-2">
+						<details>
+							<summary>Documents</summary>
+							<ul>
+								<li className="text-[16px] font-semibold my-3">
+									<NavLink to="/dashboard/faculty/documents/all">
+										All Documents
+									</NavLink>
+								</li>
+								<li className="text-[16px] font-semibold my-3">
+									<NavLink to="/dashboard/faculty/documents/unapproved-documents">
+										Unapproved Documents
+									</NavLink>
+								</li>
+								<li className="text-[16px] font-semibold my-3">
+									<NavLink to="/dashboard/faculty/documents/create">
+										Create Document
+									</NavLink>
+								</li>
+							</ul>
+						</details>
+					</li>
+					<li className="text-[16px] font-semibold my-2">
+						<details>
+							<summary>Questions</summary>
+							<ul>
+								<li className="text-[16px] font-semibold my-3">
+									<NavLink to="/dashboard/faculty/questions/all">
+										All Questions
+									</NavLink>
+								</li>
+								<li className="text-[16px] font-semibold my-3">
+									<NavLink to="/dashboard/faculty/questions/unapproved-questions">
+										Unapproved Questions
+									</NavLink>
+								</li>
+								<li className="text-[16px] font-semibold my-3">
+									<NavLink to="/dashboard/faculty/questions/create">
+										Create Questions
+									</NavLink>
+								</li>
+							</ul>
+						</details>
+					</li>
 				</>
 			)}
 			{user && user.role === "admin" && (
 				<>
 					<li className="text-[16px] font-semibold my-2">
 						<details>
-							<summary>Books</summary>
+							<summary>Documents</summary>
 							<ul>
 								<li className="text-[16px] font-semibold my-3">
 									<NavLink to="/dashboard/admin/unapproved-books">
 										Unapproved Books
+									</NavLink>
+								</li>
+								<li className="text-[16px] font-semibold my-3">
+									<NavLink to="/dashboard/admin/unapproved-documents">
+										Unapproved Documents
+									</NavLink>
+								</li>
+								<li className="text-[16px] font-semibold my-3">
+									<NavLink to="/dashboard/admin/unapproved-questions">
+										Unapproved Questions
 									</NavLink>
 								</li>
 							</ul>

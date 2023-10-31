@@ -15,6 +15,8 @@ import BookByFaculty from "./pages/dashboard/faculty/BookByFaculty";
 import CreateBook from "./pages/dashboard/faculty/CreateBook";
 import UpdateBook from "./pages/dashboard/faculty/UpdateBook";
 import UnapprovedBookByFaculty from "./pages/dashboard/faculty/UnapprovedBookByFaculty";
+import UnapprovedDocumentByFaculty from "./pages/dashboard/faculty/UnapprovedDocumentByFaculty";
+import UnapprovedQuestionByFaculty from "./pages/dashboard/faculty/UnapprovedQuestionByFaculty";
 import UnapprovedBooks from "./pages/dashboard/admin/UnapprovedBooks";
 import AcademicDepartments from "./pages/dashboard/admin/academicDepartment/AcademicDepartments";
 import ManagementDepartment from "./pages/dashboard/admin/managementDepartment/ManagementDepartment";
@@ -34,6 +36,18 @@ import Student from "./pages/dashboard/admin/student/Student";
 import CreateAdmin from "./pages/dashboard/admin/admin/CreateAdmin";
 import CreateFaculty from "./pages/dashboard/admin/faculty/CreateFaculty";
 import CreateStudent from "./pages/dashboard/admin/student/CreateStudent";
+import CreateDocument from "./pages/dashboard/faculty/CreateDocument";
+import CreateQuestion from "./pages/dashboard/faculty/CreateQuestion";
+import DocumentByFaculty from "./pages/dashboard/faculty/DocumentByFaculty";
+import QuestionByFaculty from "./pages/dashboard/faculty/QuestionByFaculty";
+import UpdateDocument from "./pages/dashboard/faculty/UpdateDocument";
+import UpdateQuestion from "./pages/dashboard/faculty/UpdateQuestion";
+import AllDocuments from "./pages/AllDocuments";
+import AllQuestions from "./pages/AllQuestions";
+import UnapprovedDocuments from "./pages/dashboard/admin/UnapprovedDocuments";
+import UnapprovedQuestions from "./pages/dashboard/admin/UnapprovedQuestions";
+import DocumentDetails from "./pages/DocumentDetails";
+import QuestionDetails from "./pages/QuestionDetails";
 
 function App() {
 	return (
@@ -43,7 +57,17 @@ function App() {
 				<Route path="/" element={<MainLayout />}>
 					<Route path="/" element={<Home />} />
 					<Route path="/books" element={<AllBooks />} />
+					<Route path="/documents" element={<AllDocuments />} />
+					<Route path="/questions" element={<AllQuestions />} />
 					<Route path="/book-details/:id" element={<BookDetails />} />
+					<Route
+						path="/document-details/:id"
+						element={<DocumentDetails />}
+					/>
+					<Route
+						path="/question-details/:id"
+						element={<QuestionDetails />}
+					/>
 					<Route
 						path="/search/:searchTerm"
 						element={<SearchResult />}
@@ -74,8 +98,48 @@ function App() {
 							element={<UpdateBook />}
 						/>
 						<Route
+							path="faculty/documents/all"
+							element={<DocumentByFaculty />}
+						/>
+						<Route
+							path="faculty/documents/unapproved-documents"
+							element={<UnapprovedDocumentByFaculty />}
+						/>
+						<Route
+							path="faculty/documents/create"
+							element={<CreateDocument />}
+						/>
+						<Route
+							path="faculty/documents/update/:id"
+							element={<UpdateDocument />}
+						/>
+						<Route
+							path="faculty/questions/all"
+							element={<QuestionByFaculty />}
+						/>
+						<Route
+							path="faculty/questions/unapproved-questions"
+							element={<UnapprovedQuestionByFaculty />}
+						/>
+						<Route
+							path="faculty/questions/create"
+							element={<CreateQuestion />}
+						/>
+						<Route
+							path="faculty/questions/update/:id"
+							element={<UpdateQuestion />}
+						/>
+						<Route
 							path="admin/unapproved-books"
 							element={<UnapprovedBooks />}
+						/>
+						<Route
+							path="admin/unapproved-documents"
+							element={<UnapprovedDocuments />}
+						/>
+						<Route
+							path="admin/unapproved-questions"
+							element={<UnapprovedQuestions />}
 						/>
 						<Route
 							path="admin/academic-departments"

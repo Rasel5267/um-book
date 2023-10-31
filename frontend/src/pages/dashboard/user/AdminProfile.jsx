@@ -49,11 +49,11 @@ const AdminProfile = () => {
 				emergencyContactNo: data.data.emergencyContactNo,
 				presentAddress: data.data.presentAddress,
 				permanentAddress: data.data.permanentAddress,
-				managementDepartment: data.data.managementDepartment._id,
+				managementDepartment: data?.data?.managementDepartment?._id,
 				designation: data.data.designation,
 				profileImage: data.data.profileImage,
 			});
-			setManagementDepartment(data.data.managementDepartment.title);
+			setManagementDepartment(data?.data?.managementDepartment?.title);
 		}
 	}, [data]);
 

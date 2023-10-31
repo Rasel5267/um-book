@@ -9,6 +9,8 @@ import { AdminRoutes } from '../modules/admin/admin.route';
 import { ManagementDepartmentRoutes } from '../modules/managementDepartment/managementDepartment.route';
 import { AuthRoutes } from '../modules/auth/auth.route';
 import { BookRoutes } from '../modules/book/book.route';
+import { DocumentRoutes } from '../modules/document/document.route';
+import { QuestionRoutes } from '../modules/question/question.route';
 
 const router = express.Router();
 
@@ -52,6 +54,14 @@ const moduleRoutes = [
   {
     path: '/books',
     route: BookRoutes,
+  },
+  {
+    path: '/documents',
+    route: DocumentRoutes,
+  },
+  {
+    path: '/questions',
+    route: QuestionRoutes,
   },
 ];
 

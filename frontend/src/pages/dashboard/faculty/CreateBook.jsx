@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 const CreateBook = () => {
 	const navigate = useNavigate();
 	const [pdf, setPdf] = useState(null);
+	const [image, setImage] = useState(null);
 	const [academicDepartment, setAcademicDepartment] =
 		useState("Select Department");
 
@@ -16,7 +17,6 @@ const CreateBook = () => {
 		publisher: "",
 		publicationDate: "",
 		description: "",
-		image: "",
 		academicDepartment: "",
 	});
 
@@ -65,6 +65,7 @@ const CreateBook = () => {
 
 		const formDataToSend = new FormData();
 		formDataToSend.append("pdf", pdf); // Append the PDF file
+		formDataToSend.append("image", image); // Append the Image file
 
 		for (const key in formData) {
 			formDataToSend.append(key, formData[key]); // Append other form data
@@ -90,18 +91,12 @@ const CreateBook = () => {
 	};
 
 	const handleInputChange = (event) => {
-		const { name, value, type, files } = event.target;
+		const { name, value } = event.target;
 
-		if (type === "file") {
-			// Handle file input (PDF)
-			setPdf(files[0]);
-		} else {
-			// Handle other input fields
-			setFormData((prevFormData) => ({
-				...prevFormData,
-				[name]: value,
-			}));
-		}
+		setFormData((prevFormData) => ({
+			...prevFormData,
+			[name]: value,
+		}));
 	};
 
 	return (
@@ -198,16 +193,15 @@ const CreateBook = () => {
 							htmlFor="image"
 							className="font-semibold my-4 lg:mt-4"
 						>
-							Book Image URL
+							Book Image
 						</label>
 						<input
 							className="border p-2 focus:outline-none"
-							type="text"
+							type="file"
 							name="image"
-							placeholder="Enter Book Image URL"
-							value={formData.image}
+							placeholder="Select Image"
+							onChange={(e) => setImage(e.target.files[0])}
 							required
-							onChange={handleInputChange}
 						/>
 					</div>
 				</div>

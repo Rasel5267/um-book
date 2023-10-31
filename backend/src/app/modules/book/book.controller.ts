@@ -6,9 +6,6 @@ import { catchAsync } from '../../../shared/catchAsync';
 import { Request, Response } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
 import { BookService } from './book.service';
-import pick from '../../../shared/pick';
-import { paginationFields } from '../../../constant/pagination';
-import { bookFilterableFields } from './book.constant';
 import { ApiError } from '../../../errors/ApiError';
 import { UploadedFile } from 'express-fileupload';
 import path from 'path';
@@ -32,11 +29,14 @@ const createBook = catchAsync(async (req: Request, res: Response) => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'No files were uploaded.');
   }
   const pdfFile = req.files.pdf as UploadedFile;
+  const imageFile = req.files.image as UploadedFile;
 
   // Generate unique file names by appending timestamps
   const pdfFileName = generateUniqueFileName(pdfFile.name);
+  const imgFileName = generateUniqueFileName(imageFile.name);
 
-  const dir = path.join(process.cwd(), 'uploads');
+  const dir = path.join(process.cwd(), 'uploads/pdf');
+  const imgDir = path.join(process.cwd(), 'uploads/images');
 
   pdfFile.mv(`${dir}/${pdfFileName}`, (err: any) => {
     if (err) {
@@ -47,8 +47,18 @@ const createBook = catchAsync(async (req: Request, res: Response) => {
     }
   });
 
+  imageFile.mv(`${imgDir}/${imgFileName}`, (err: any) => {
+    if (err) {
+      throw new ApiError(
+        httpStatus.INTERNAL_SERVER_ERROR,
+        'Error saving Image file.'
+      );
+    }
+  });
+
   // Add the unique file paths to the payload
   payload.pdf = `${pdfFileName}`;
+  payload.image = `${imgFileName}`;
 
   const result = await BookService.CreateBook(user, payload);
 
@@ -61,16 +71,13 @@ const createBook = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllBooks = catchAsync(async (req: Request, res: Response) => {
-  const filters = pick(req.query, bookFilterableFields);
-  const paginationOptions = pick(req.query, paginationFields);
-  const result = await BookService.GetAllBooks(filters, paginationOptions);
+  const result = await BookService.GetAllBooks();
 
   sendResponse<IBook[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Books retrieved successfully',
-    meta: result.meta,
-    data: result.data,
+    data: result,
   });
 });
 
@@ -138,7 +145,7 @@ const approvedBook = catchAsync(async (req: Request, res: Response) => {
 const download = catchAsync(async (req: Request, res: Response) => {
   const filename = req.params.filename;
 
-  const dir = path.join(process.cwd(), 'uploads');
+  const dir = path.join(process.cwd(), 'uploads/pdf');
   const filePath = path.join(dir, filename);
 
   res.download(filePath, function (err) {

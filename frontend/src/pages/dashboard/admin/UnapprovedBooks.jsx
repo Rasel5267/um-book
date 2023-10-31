@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useGetUnapprovedBooksQuery } from "../../../redux/features/book/bookApi";
-import ApprovedBook from "../../../components/ApprovedBook";
+import ApproveBook from "../../../components/ApproveBook";
 
 const UnapprovedBooks = () => {
 	const { data, isLoading } = useGetUnapprovedBooksQuery(undefined);
@@ -15,14 +15,6 @@ const UnapprovedBooks = () => {
 				</div>
 			) : (
 				<>
-					<div className="flex items-center justify-end pb-8">
-						<Link
-							to="/dashboard/faculty/books/create"
-							className="bg-gray-800 px-4 py-2 text-gray-100 rounded hover:bg-gray-700 transition-colors duration-300"
-						>
-							Create Book
-						</Link>
-					</div>
 					{Books && (
 						<div className="table-container">
 							<div className="table-content">
@@ -60,7 +52,7 @@ const UnapprovedBooks = () => {
 											{book.publisher}
 										</div>
 										<div className="cell">
-											<ApprovedBook id={book._id} />
+											<ApproveBook id={book._id} />
 										</div>
 									</div>
 								))}

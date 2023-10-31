@@ -16,6 +16,8 @@ app.use(cors());
 app.use(cookieParser());
 app.use(fileUpload());
 
+app.use('/images', express.static('uploads/images'));
+
 app.use('/api/v1/', routers);
 
 // global error handler
